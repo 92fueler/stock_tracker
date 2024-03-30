@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+# This script is used to set up a project in an initial state
+# It should be the first script run after initializing or cloning the project
+
+if [[ -n $(poetry env list) ]]; then
+    echo -e "==> ${RED}Removing Existing Python Virtual Environments${NC}"
+    poetry env list | awk '{print $1}' | xargs poetry env remove
+fi
+
+echo -e "==> ${GREEN}Installing Python Virtual Environment${NC}"
+poetry env use python3.10
+poetry update --lock
+echo $(poetry env info -p)/bin/python3
+
+script/bootstrap
