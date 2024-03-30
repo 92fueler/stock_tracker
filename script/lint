@@ -23,7 +23,7 @@ echo -e "==> ${GREEN}Checking Poetry environment${NC}"
 poetry check
 
 # Directory to be checked by Black
-TARGET_DIR="pages/"
+TARGET_DIR="."
 
 # Check if the target directory exists before running Black
 if [ -d "${TARGET_DIR}" ]; then
@@ -32,3 +32,16 @@ if [ -d "${TARGET_DIR}" ]; then
 else
     echo -e "==> ${RED}Directory '${TARGET_DIR}' does not exist, skipping Black...${NC}"
 fi
+
+# Run Ruff
+# Checking for specific Ruff arguments based on '--enforce' flag
+# if [ "${1}" = "--fix" ]; then
+#     echo -e "${RED}Enforcing Ruff Linting${NC}"
+#     RUFF_ARGS=""
+# else
+#     # Example of Ruff arguments for CI or non-enforcing scenarios
+#     RUFF_ARGS=""
+# fi
+
+# echo -e "==> ${GREEN}Running Ruff on ${TARGET_DIR}${NC}"
+# poetry run ruff ${RUFF_ARGS} ${TARGET_DIR}
