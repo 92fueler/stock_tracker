@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+# script/lint performs style checking separately from tests.
+
+# Navigate to the project root directory
+cd "$(dirname "$0")/.."
+
+# Setup variables for color coding in terminal output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Check for the '--enforce' flag to determine behavior
+if [ "${1}" = "--enforce" ]; then
+    echo -e "${RED}Enforcing Black Code Formatting${NC}"
+    BLACK_ARGS=""
+else
+    BLACK_ARGS="--diff --check"
+fi
+
+# Ensure the Poetry environment is correctly set up
+echo -e "==> ${GREEN}Checking Poetry environment${NC}"
+poetry check
+
+# Directory to be checked by Black
+TARGET_DIR="pages/"
+
+# Check if the target directory exists before running Black
+if [ -d "${TARGET_DIR}" ]; then
+    echo -e "==> ${GREEN}Running Black on ${TARGET_DIR}${NC}"
+    poetry run black ${BLACK_ARGS} ${TARGET_DIR}
+else
+    echo -e "==> ${RED}Directory '${TARGET_DIR}' does not exist, skipping Black...${NC}"
+fi

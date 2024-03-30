@@ -1,5 +1,10 @@
 import streamlit as st
 
-st.set_page_config(page_title="Portfolio Management", layout="wide")
+from pages import portfolio, holdings
 
-st.write("# Streamlit Dashboard by J.W.")
+# Create a sidebar menu
+pages = {"Portfolio": portfolio.portfolio_page, "Holdings": holdings.holdings_page}
+
+# Display the selected page
+selected_page = st.sidebar.selectbox("Select a page", list(pages.keys()))
+pages[selected_page]()
